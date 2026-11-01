@@ -1,0 +1,17 @@
+{
+  "name": "SMART BOX GSIA Togo",
+  "short_name": "SMART BOX",
+  "description": "Le premier logiciel Smart Board 100% programme togolais - Fonctionne offline",
+  "start_url": "/Smart-box-gsia-Togo/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#22c55e",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3652/3652191.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

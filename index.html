@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMART BOX GSIA - Togo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{background:#0f172a;color:white}
+header{background:#1e293b;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #22c55e}
+header h1{font-size:18px;color:#22c55e}
+header span{background:#22c55e;color:black;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.tabs{display:flex;background:#1e293b}
+.tab{flex:1;padding:14px;text-align:center;cursor:pointer;font-weight:bold;font-size:13px;border-bottom:3px solid transparent}
+.tab.active{border-bottom:3px solid #22c55e;color:#22c55e;background:#0f172a}
+.content{display:none;padding:15px}
+.content.active{display:block}
+.sim-box{background:#1e293b;border-radius:12px;padding:15px;margin-top:10px;border:1px solid #334155}
+canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius:10px;display:block}
+.controls{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.btn{padding:10px 14px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:12px}
+.btn-green{background:#22c55e;color:black}
+.btn-blue{background:#3b82f6;color:white}
+.btn-orange{background:#f59e0b;color:black}
+.btn-dark{background:#334155;color:white}
+.ai-box{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:12px;padding:15px;margin-top:15px}
+.ai-box h3{color:#22c55e;font-size:14px;margin-bottom:8px}
+.ai-text{font-size:13px;line-height:1.5;color:#cbd5e1}
+.lamp{display:inline-block;width:22px;height:22px;border-radius:50%;background:#334155;margin:0 4px;border:2px solid #475569}
+.lamp.on{background:#facc15;box-shadow:0 0 15px #facc15}
+.lamp.strong{background:#fef08a;box-shadow:0 0 25px #fde047}
+.badge{font-size:10px;padding:3px 8px;border-radius:20px;background:#334155;display:inline-block;margin:2px}
+</style>
+</head>
+<body>
+<header>
+<h1>📦 SMART BOX GSIA</h1>
+<span>EDITION TOGO v1.0</span>
+</header>
+<div class="tabs">
+<div class="tab active" onclick="switchTab(0)">⚡ ÉLECTRICITÉ</div>
+<div class="tab" onclick="switchTab(1)">📐 GÉOMÉTRIE 3D</div>
+<div class="tab" onclick="switchTab(2)">🤖 IA EXPLIQUE</div>
+</div>
+
+<div class="content active" id="tab0">
+<h3 style="font-size:14px">Comme dans la vidéo : Montage Série / Dérivation</h3>
+<p style="font-size:11px;color:#94a3b8;margin:5px 0">Clique sur les boutons pour brancher comme le prof à 4:24</p>
+<div class="sim-box">
+<canvas id="circuitCanvas" width="360" height="320"></canvas>
+<div class="controls">
+<button class="btn btn-green" onclick="setCircuit('serie')">🔋 Série L1+L2</button>
+<button class="btn btn-blue" onclick="setCircuit('derivation')">💡 Dérivation</button>
+<button class="btn btn-orange" onclick="setCircuit('un')">🔌 Une lampe</button>
+<button class="btn btn-dark" onclick="setCircuit('off')">❌ Éteindre</button>
+</div>
+<div style="font-size:12px">Pile: 4.5V | L1: <span id="l1state" class="lamp"></span> <span id="l1txt">Éteinte</span> | L2: <span id="l2state" class="lamp"></span> <span id="l2txt">Éteinte</span></div>
+</div>
+<div class="ai-box">
+<h3>🤖 L'IA explique (Français facile Togo)</h3>
+<div class="ai-text" id="elecExplain">Clique sur un montage pour que je t'explique comme à un élève de 4ème.</div>
+</div>
+</div>
+
+<div class="content" id="tab1">
+<h3 style="font-size:14px">Comme dans la vidéo à 1:04 : Prisme 3D</h3>
+<div class="sim-box">
+<div id="three-container"></div>
+<div class="controls">
+<button class="btn btn-green" onclick="setShape('prism')">Prisme Triangulaire</button>
+<button class="btn btn-blue" onclick="setShape('pyramid')">Pyramide</button>
+<button class="btn btn-orange" onclick="setShape('cube')">Cube</button>
+</div>
+<div style="font-size:12px;color:#94a3b8">Volume: <span id="vol" style="color:#22c55e;font-weight:bold">0 cm³</span> <span class="badge">Formule: Base x Hauteur</span></div>
+</div>
+<div class="ai-box">
+<h3>🤖 L'IA explique</h3>
+<div class="ai-text" id="geoExplain">Le prisme triangulaire que le prof dessine : c'est 2 triangles + 3 rectangles.</div>
+</div>
+</div>
+
+<div class="content" id="tab2">
+<div class="ai-box">
+<h3>🤖 SMART BOX IA - Ton prof perso</h3>
+<div style="display:flex;gap:6px;margin:10px 0">
+<input id="qInput" style="flex:1;padding:10px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white;font-size:12px" placeholder="Ex: Pourquoi en dérivation ça brille plus ?">
+<button class="btn btn-green" onclick="askIA()">Demander</button>
+</div>
+<div class="ai-text" id="iaAnswer">Exemples :<br>• Pourquoi L1 et L2 brillent moins en série ?<br>• C'est quoi le volume du prisme ?<br>• Donne-moi un exercice</div>
+</div>
+</div>
+
+<script>
+function switchTab(i){document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));document.querySelectorAll('.content').forEach((c,idx)=>c.classList.toggle('active',idx===i));if(i===1)initThree();}
+let canvas=document.getElementById('circuitCanvas');let ctx=canvas.getContext('2d');let mode='off';
+function setCircuit(m){mode=m;draw();explainElec();}
+function draw(){ctx.clearRect(0,0,360,320);ctx.fillStyle='#f8fafc';ctx.fillRect(0,0,360,320);ctx.fillStyle='#f97316';ctx.fillRect(40,30,60,50);ctx.fillStyle='black';ctx.font='bold 10px sans-serif';ctx.fillText('4.5V',55,55);ctx.fillStyle='#22c55e';ctx.fillRect(45,80,10,15);ctx.fillStyle='#ef4444';ctx.fillRect(85,80,10,15);let l1on=false,l2on=false,strong=false;if(mode==='un'){l1on=true;strong=true}if(mode==='serie'){l1on=true;l2on=true;strong=false}if(mode==='derivation'){l1on=true;l2on=true;strong=true}ctx.strokeStyle= mode==='off'?'#cbd5e1':'#ef4444';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(50,95);ctx.lineTo(50,200);ctx.lineTo(120,200);ctx.stroke();ctx.beginPath();ctx.moveTo(90,95);ctx.lineTo(90,140);ctx.lineTo(260,140);ctx.stroke();if(mode==='serie'){ctx.beginPath();ctx.moveTo(120,200);ctx.lineTo(120,220);ctx.lineTo(200,220);ctx.lineTo(200,200);ctx.stroke();ctx.beginPath();ctx.moveTo(260,140);ctx.lineTo(260,200);ctx.stroke();}if(mode==='derivation'){ctx.strokeStyle='#3b82f6';ctx.beginPath();ctx.moveTo(120,200);ctx.lineTo(120,250);ctx.lineTo(200,250);ctx.lineTo(200,200);ctx.stroke();ctx.strokeStyle='#f59e0b';ctx.beginPath();ctx.moveTo(260,140);ctx.lineTo(260,250);ctx.stroke();}drawLamp(120,200,l1on,strong,'L1');drawLamp(200,200,l2on,strong,'L2');document.getElementById('l1state').className='lamp'+(l1on?(strong?' strong':' on'):'');document.getElementById('l2state').className='lamp'+(l2on?(strong?' strong':' on'):'');document.getElementById('l1txt').innerText=l1on?(strong?'Allumée FORT':'Allumée faible'):'Éteinte';document.getElementById('l2txt').innerText=l2on?(strong?'Allumée FORT':'Allumée faible'):'Éteinte';}
+function drawLamp(x,y,on,strong,label){ctx.fillStyle= on ? (strong?'#fde047':'#facc15') : '#e2e8f0';ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fill();if(on){ctx.shadowColor='#facc15';ctx.shadowBlur= strong?20:8;ctx.fill();ctx.shadowBlur=0}ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='black';ctx.font='10px sans-serif';ctx.fillText(label,x-8,y+35);}
+function explainElec(){let el=document.getElementById('elecExplain');if(mode==='off')el.innerHTML="Tout est éteint. Clique sur un bouton.";if(mode==='un')el.innerHTML="<b>UNE LAMPE :</b> Toute l'énergie va dans L1. Elle brille fort.";if(mode==='serie')el.innerHTML="<b>EN SÉRIE :</b> L1 et L2 partagent la même pile, comme 2 personnes avec une seule paille. Donc faible. Si une grille, tout s'éteint.";if(mode==='derivation')el.innerHTML="<b>EN DÉRIVATION :</b> Chacun son chemin. Comme chacun sa bouteille. Elles brillent FORT, et si L1 grille, L2 reste.";}
+draw();
+let scene,camera,renderer,mesh;
+function initThree(){let container=document.getElementById('three-container');if(renderer)return;scene=new THREE.Scene();scene.background=new THREE.Color(0xf8fafc);camera=new THREE.PerspectiveCamera(60,container.clientWidth/320,0.1,1000);camera.position.set(2,2,3);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(container.clientWidth,320);container.innerHTML='';container.appendChild(renderer.domElement);let light=new THREE.DirectionalLight(0xffffff,1);light.position.set(2,3,4);scene.add(light);scene.add(new THREE.AmbientLight(0x888888));setShape('prism');animate();}
+function animate(){requestAnimationFrame(animate);if(mesh)mesh.rotation.y+=0.01;if(renderer)renderer.render(scene,camera);}
+function setShape(type){if(!scene)return;if(mesh)scene.remove(mesh);let geo;if(type==='prism'){geo=new THREE.CylinderGeometry(0.6,0.6,1.2,3);document.getElementById('vol').innerText='0.46 cm³';document.getElementById('geoExplain').innerHTML="Prisme triangulaire : 2 bases + 3 faces rectangles. Volume = Aire base x hauteur.";}if(type==='cube'){geo=new THREE.BoxGeometry(1,1,1);document.getElementById('vol').innerText='1.00 cm³';document.getElementById('geoExplain').innerHTML="Cube : 6 faces carrées. Volume = côté³.";}if(type==='pyramid'){geo=new THREE.ConeGeometry(0.7,1.2,4);document.getElementById('vol').innerText='0.61 cm³';document.getElementById('geoExplain').innerHTML="Pyramide : base carrée + 4 triangles. Volume = (Base x hauteur)/3.";}let mat=new THREE.MeshStandardMaterial({color:0x22c55e,transparent:true,opacity:0.9});mesh=new THREE.Mesh(geo,mat);scene.add(mesh);}
+function askIA(){let q=document.getElementById('qInput').value.toLowerCase();let ans=document.getElementById('iaAnswer');if(q.includes('série')||q.includes('serie'))ans.innerHTML="En série, les lampes partagent le courant. Comme 2 robinets sur même tuyau : moins de pression. Si une grille, tout s'éteint.";else if(q.includes('dérivation')||q.includes('derivation'))ans.innerHTML="En dérivation, chaque lampe a son propre chemin. Elles brillent fort et sont indépendantes. C'est le montage maison.";else if(q.includes('prisme')||q.includes('volume'))ans.innerHTML="Volume prisme = Aire triangle base x longueur.";else if(q.includes('exercice'))ans.innerHTML="<b>Exercice :</b> Pile 4.5V, L1=10Ω, L2=10Ω. 1) Intensité série ? 2) Intensité dérivation ?";else ans.innerHTML="Pose une question sur 'série', 'dérivation', 'prisme' ou 'exercice'.";}
+</script>
+</body>
+</html>

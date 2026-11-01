@@ -3,107 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMART BOX GSIA - Togo</title>
+<title>SMART BOX GSIA V2.1 - IA Partout</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
 body{background:#0f172a;color:white}
-header{background:#1e293b;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #22c55e}
-header h1{font-size:18px;color:#22c55e}
-header span{background:#22c55e;color:black;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.tabs{display:flex;background:#1e293b}
-.tab{flex:1;padding:14px;text-align:center;cursor:pointer;font-weight:bold;font-size:13px;border-bottom:3px solid transparent}
+header{background:#1e293b;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #22c55e}
+header h1{font-size:14px;color:#22c55e}
+header span{background:#22c55e;color:black;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:bold}
+.tabs{display:flex;background:#1e293b;overflow-x:auto}
+.tab{flex:1;min-width:65px;padding:10px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:9px;border-bottom:3px solid transparent}
 .tab.active{border-bottom:3px solid #22c55e;color:#22c55e;background:#0f172a}
-.content{display:none;padding:15px}
+.content{display:none;padding:10px}
 .content.active{display:block}
-.sim-box{background:#1e293b;border-radius:12px;padding:15px;margin-top:10px;border:1px solid #334155}
+.sim-box{background:#1e293b;border-radius:12px;padding:10px;margin-top:8px;border:1px solid #334155}
 canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius:10px;display:block}
-.controls{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
-.btn{padding:10px 14px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:12px}
+.controls{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap}
+.btn{padding:7px 9px;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:9px}
 .btn-green{background:#22c55e;color:black}
 .btn-blue{background:#3b82f6;color:white}
 .btn-orange{background:#f59e0b;color:black}
 .btn-dark{background:#334155;color:white}
-.ai-box{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #22c55e;border-radius:12px;padding:15px;margin-top:15px}
-.ai-box h3{color:#22c55e;font-size:14px;margin-bottom:8px}
-.ai-text{font-size:13px;line-height:1.5;color:#cbd5e1}
-.lamp{display:inline-block;width:22px;height:22px;border-radius:50%;background:#334155;margin:0 4px;border:2px solid #475569}
-.lamp.on{background:#facc15;box-shadow:0 0 15px #facc15}
-.lamp.strong{background:#fef08a;box-shadow:0 0 25px #fde047}
-.badge{font-size:10px;padding:3px 8px;border-radius:20px;background:#334155;display:inline-block;margin:2px}
+.ai-box{background:linear-gradient(135deg,#1e293b,#0f172a);border:1.5px solid #22c55e;border-radius:12px;padding:12px;margin-top:10px}
+.ai-box h3{color:#22c55e;font-size:12px;margin-bottom:6px}
+.ai-text{font-size:11.5px;line-height:1.6;color:#e2e8f0}
+.ai-text b{color:#22c55e}
+.lamp{display:inline-block;width:16px;height:16px;border-radius:50%;background:#334155;margin:0 2px;border:2px solid #475569;vertical-align:middle}
+.lamp.on{background:#facc15;box-shadow:0 0 10px #facc15}
+.lamp.strong{background:#fef08a;box-shadow:0 0 18px #fde047}
+.periodic-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;padding:6px;background:#0f172a;border-radius:10px}
+.el{padding:6px 1px;text-align:center;border-radius:4px;font-size:9px;font-weight:bold;cursor:pointer;color:white}
+.el.H{background:#ef4444}.el.He{background:#3b82f6}.el.Li{background:#22c55e}.el.Be{background:#f59e0b}.el.B{background:#8b5cf6}.el.C{background:#06b6d4}.el.N{background:#ec4899}.el.O{background:#f97316}.el.F{background:#10b981}.el.Ne{background:#6366f1}
+.input-row{display:flex;gap:5px;margin:5px 0}
+.input-row input{flex:1;padding:7px;border-radius:6px;border:1px solid #334155;background:#0f172a;color:white;font-size:11px}
+.formula{background:#0f172a;padding:8px;border-radius:8px;text-align:center;font-weight:bold;color:#22c55e;margin:6px 0;font-size:12px}
 </style>
 </head>
 <body>
-<header>
-<h1>📦 SMART BOX GSIA</h1>
-<span>EDITION TOGO v1.0</span>
-</header>
+<header><h1>📦 SMART BOX GSIA</h1><span>V2.1 IA PARTOUT</span></header>
 <div class="tabs">
-<div class="tab active" onclick="switchTab(0)">⚡ ÉLECTRICITÉ</div>
-<div class="tab" onclick="switchTab(1)">📐 GÉOMÉTRIE 3D</div>
-<div class="tab" onclick="switchTab(2)">🤖 IA EXPLIQUE</div>
+<div class="tab active" onclick="switchTab(0)">⚡ ÉLEC</div>
+<div class="tab" onclick="switchTab(1)">📐 3D</div>
+<div class="tab" onclick="switchTab(2)">🧪 CHIMIE</div>
+<div class="tab" onclick="switchTab(3)">📏 FORMULES</div>
+<div class="tab" onclick="switchTab(4)">🔬 LABO</div>
 </div>
 
 <div class="content active" id="tab0">
-<h3 style="font-size:14px">Comme dans la vidéo : Montage Série / Dérivation</h3>
-<p style="font-size:11px;color:#94a3b8;margin:5px 0">Clique sur les boutons pour brancher comme le prof à 4:24</p>
+<h3 style="font-size:11px">⚡ Électricité - Série / Dérivation</h3>
 <div class="sim-box">
-<canvas id="circuitCanvas" width="360" height="320"></canvas>
+<canvas id="circuitCanvas" width="360" height="280"></canvas>
 <div class="controls">
-<button class="btn btn-green" onclick="setCircuit('serie')">🔋 Série L1+L2</button>
+<button class="btn btn-green" onclick="setCircuit('serie')">🔋 Série</button>
 <button class="btn btn-blue" onclick="setCircuit('derivation')">💡 Dérivation</button>
-<button class="btn btn-orange" onclick="setCircuit('un')">🔌 Une lampe</button>
-<button class="btn btn-dark" onclick="setCircuit('off')">❌ Éteindre</button>
+<button class="btn btn-orange" onclick="setCircuit('un')">🔌 1 Lampe</button>
+<button class="btn btn-dark" onclick="setCircuit('off')">❌ Off</button>
 </div>
-<div style="font-size:12px">Pile: 4.5V | L1: <span id="l1state" class="lamp"></span> <span id="l1txt">Éteinte</span> | L2: <span id="l2state" class="lamp"></span> <span id="l2txt">Éteinte</span></div>
+<div style="font-size:10px">L1:<span id="l1state" class="lamp"></span><span id="l1txt">Off</span> L2:<span id="l2state" class="lamp"></span><span id="l2txt">Off</span></div>
 </div>
 <div class="ai-box">
-<h3>🤖 L'IA explique (Français facile Togo)</h3>
-<div class="ai-text" id="elecExplain">Clique sur un montage pour que je t'explique comme à un élève de 4ème.</div>
+<h3>L'IA explique - Électricité (Français facile Togo)</h3>
+<div class="ai-text" id="elecExplain">Clique sur un montage, je t'explique tout. U=4.5V c'est la force de la pile, comme la pression de l'eau.</div>
 </div>
 </div>
 
 <div class="content" id="tab1">
-<h3 style="font-size:14px">Comme dans la vidéo à 1:04 : Prisme 3D</h3>
+<h3 style="font-size:11px">📐 Géométrie 3D</h3>
 <div class="sim-box">
 <div id="three-container"></div>
 <div class="controls">
-<button class="btn btn-green" onclick="setShape('prism')">Prisme Triangulaire</button>
+<button class="btn btn-green" onclick="setShape('prism')">Prisme</button>
 <button class="btn btn-blue" onclick="setShape('pyramid')">Pyramide</button>
 <button class="btn btn-orange" onclick="setShape('cube')">Cube</button>
+<button class="btn btn-dark" onclick="forceRedraw()">🔄 Centrer</button>
 </div>
-<div style="font-size:12px;color:#94a3b8">Volume: <span id="vol" style="color:#22c55e;font-weight:bold">0 cm³</span> <span class="badge">Formule: Base x Hauteur</span></div>
+<div style="font-size:11px">Volume: <span id="vol" style="color:#22c55e;font-weight:bold">--</span></div>
 </div>
 <div class="ai-box">
-<h3>🤖 L'IA explique</h3>
-<div class="ai-text" id="geoExplain">Le prisme triangulaire que le prof dessine : c'est 2 triangles + 3 rectangles.</div>
+<h3>L'IA explique - Géométrie 3D</h3>
+<div class="ai-text" id="geoExplain"><b>Prisme triangulaire :</b> Imagine un Toblerone. 2 triangles + 3 rectangles. Volume = aire triangle × longueur.</div>
 </div>
 </div>
 
 <div class="content" id="tab2">
-<div class="ai-box">
-<h3>🤖 SMART BOX IA - Ton prof perso</h3>
-<div style="display:flex;gap:6px;margin:10px 0">
-<input id="qInput" style="flex:1;padding:10px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white;font-size:12px" placeholder="Ex: Pourquoi en dérivation ça brille plus ?">
-<button class="btn btn-green" onclick="askIA()">Demander</button>
+<h3 style="font-size:11px">🧪 Tableau Périodique</h3>
+<div class="sim-box">
+<div class="periodic-grid" id="periodicGrid"></div>
+<div style="margin-top:8px;padding:8px;background:#0f172a;border-radius:8px">
+<div style="font-size:12px;color:#22c55e;font-weight:bold" id="atomName">Clique sur un atome</div>
+<div style="font-size:11px;color:#cbd5e1" id="atomDetail">H = Hydrogène, Z=1</div>
 </div>
-<div class="ai-text" id="iaAnswer">Exemples :<br>• Pourquoi L1 et L2 brillent moins en série ?<br>• C'est quoi le volume du prisme ?<br>• Donne-moi un exercice</div>
+</div>
+<div class="ai-box">
+<h3>L'IA explique - Chimie</h3>
+<div class="ai-text" id="chimExplain"><b>Clique sur un élément !</b> Chaque atome a un numéro Z. Ex: H Z=1 = 1 proton. Plus Z grand = atome plus lourd. Les colonnes = même famille = mêmes propriétés.</div>
+</div>
+</div>
+
+<div class="content" id="tab3">
+<h3 style="font-size:11px">📏 Formules I / U / R</h3>
+<div class="sim-box">
+<div class="formula">U = R × I | I = U / R | R = U / I | P = U × I</div>
+<div class="input-row"><input id="inU" type="number" value="4.5"><input id="inR" type="number" value="10"></div>
+<div class="controls">
+<button class="btn btn-green" onclick="calcOhms()">⚡ Calculer I</button>
+<button class="btn btn-blue" onclick="calcSerie()">🔋 Série</button>
+<button class="btn btn-orange" onclick="calcDeriv()">💡 Dérivation</button>
+</div>
+<div style="font-size:12px;background:#0f172a;padding:8px;border-radius:8px">
+I = <span id="resI" style="color:#22c55e;font-weight:bold">0.45 A</span> | P = <span id="resP" style="color:#facc15">2.02 W</span><br>
+<span id="resDetail" style="font-size:10px;color:#94a3b8">Détail calcul</span>
+</div>
+</div>
+<div class="ai-box">
+<h3>L'IA explique - Formules</h3>
+<div class="ai-text" id="formExplain"><b>Loi d'Ohm, c'est comme l'eau :</b> U = pression, R = taille du tuyau, I = débit. I = U / R. Donc 4.5V / 10Ω = 0.45A.</div>
+</div>
+</div>
+
+<div class="content" id="tab4">
+<h3 style="font-size:11px">🔬 Labo: Oscillomètre + Vecteurs</h3>
+<div class="sim-box">
+<div style="display:flex;gap:6px">
+<div style="flex:1"><b style="font-size:9px">OSCILLO</b><canvas id="oscilloCanvas" width="160" height="130" style="height:130px;background:#000;border-radius:6px"></canvas><div class="controls"><button class="btn btn-green" onclick="setOsc('sin')">Sin</button><button class="btn btn-blue" onclick="setOsc('carre')">Carré</button></div></div>
+<div style="flex:1"><b style="font-size:9px">VECTEURS</b><canvas id="vectorCanvas" width="160" height="130" style="height:130px;background:#fff;border-radius:6px"></canvas><div class="controls"><button class="btn btn-orange" onclick="setVec(30)">30°</button><button class="btn btn-blue" onclick="setVec(90)">90°</button><button class="btn btn-green" onclick="setVec(180)">180°</button></div></div>
+</div>
+</div>
+<div class="ai-box">
+<h3>L'IA explique - Labo</h3>
+<div class="ai-text" id="labExplain"><b>Oscillomètre :</b> Dessine comment la tension change. Sinusoïdale = courant SONABEL 50Hz. <b>Vecteurs :</b> 2 personnes qui poussent une table.</div>
 </div>
 </div>
 
 <script>
-function switchTab(i){document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));document.querySelectorAll('.content').forEach((c,idx)=>c.classList.toggle('active',idx===i));if(i===1)initThree();}
+function switchTab(i){
+ document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
+ document.querySelectorAll('.content').forEach((c,idx)=>c.classList.toggle('active',idx===i));
+ if(i===1) setTimeout(()=>{initThree(); forceRedraw();},100);
+ if(i===4) setTimeout(()=>{initOscillo(); initVector();},100);
+}
 let canvas=document.getElementById('circuitCanvas');let ctx=canvas.getContext('2d');let mode='off';
 function setCircuit(m){mode=m;draw();explainElec();}
-function draw(){ctx.clearRect(0,0,360,320);ctx.fillStyle='#f8fafc';ctx.fillRect(0,0,360,320);ctx.fillStyle='#f97316';ctx.fillRect(40,30,60,50);ctx.fillStyle='black';ctx.font='bold 10px sans-serif';ctx.fillText('4.5V',55,55);ctx.fillStyle='#22c55e';ctx.fillRect(45,80,10,15);ctx.fillStyle='#ef4444';ctx.fillRect(85,80,10,15);let l1on=false,l2on=false,strong=false;if(mode==='un'){l1on=true;strong=true}if(mode==='serie'){l1on=true;l2on=true;strong=false}if(mode==='derivation'){l1on=true;l2on=true;strong=true}ctx.strokeStyle= mode==='off'?'#cbd5e1':'#ef4444';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(50,95);ctx.lineTo(50,200);ctx.lineTo(120,200);ctx.stroke();ctx.beginPath();ctx.moveTo(90,95);ctx.lineTo(90,140);ctx.lineTo(260,140);ctx.stroke();if(mode==='serie'){ctx.beginPath();ctx.moveTo(120,200);ctx.lineTo(120,220);ctx.lineTo(200,220);ctx.lineTo(200,200);ctx.stroke();ctx.beginPath();ctx.moveTo(260,140);ctx.lineTo(260,200);ctx.stroke();}if(mode==='derivation'){ctx.strokeStyle='#3b82f6';ctx.beginPath();ctx.moveTo(120,200);ctx.lineTo(120,250);ctx.lineTo(200,250);ctx.lineTo(200,200);ctx.stroke();ctx.strokeStyle='#f59e0b';ctx.beginPath();ctx.moveTo(260,140);ctx.lineTo(260,250);ctx.stroke();}drawLamp(120,200,l1on,strong,'L1');drawLamp(200,200,l2on,strong,'L2');document.getElementById('l1state').className='lamp'+(l1on?(strong?' strong':' on'):'');document.getElementById('l2state').className='lamp'+(l2on?(strong?' strong':' on'):'');document.getElementById('l1txt').innerText=l1on?(strong?'Allumée FORT':'Allumée faible'):'Éteinte';document.getElementById('l2txt').innerText=l2on?(strong?'Allumée FORT':'Allumée faible'):'Éteinte';}
-function drawLamp(x,y,on,strong,label){ctx.fillStyle= on ? (strong?'#fde047':'#facc15') : '#e2e8f0';ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fill();if(on){ctx.shadowColor='#facc15';ctx.shadowBlur= strong?20:8;ctx.fill();ctx.shadowBlur=0}ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='black';ctx.font='10px sans-serif';ctx.fillText(label,x-8,y+35);}
-function explainElec(){let el=document.getElementById('elecExplain');if(mode==='off')el.innerHTML="Tout est éteint. Clique sur un bouton.";if(mode==='un')el.innerHTML="<b>UNE LAMPE :</b> Toute l'énergie va dans L1. Elle brille fort.";if(mode==='serie')el.innerHTML="<b>EN SÉRIE :</b> L1 et L2 partagent la même pile, comme 2 personnes avec une seule paille. Donc faible. Si une grille, tout s'éteint.";if(mode==='derivation')el.innerHTML="<b>EN DÉRIVATION :</b> Chacun son chemin. Comme chacun sa bouteille. Elles brillent FORT, et si L1 grille, L2 reste.";}
+function draw(){ctx.clearRect(0,0,360,280);ctx.fillStyle='#f8fafc';ctx.fillRect(0,0,360,280);ctx.fillStyle='#f97316';ctx.fillRect(40,15,60,40);ctx.fillStyle='black';ctx.font='bold 10px sans-serif';ctx.fillText('4.5V',55,38);ctx.fillStyle='#22c55e';ctx.fillRect(45,55,10,10);ctx.fillStyle='#ef4444';ctx.fillRect(85,55,10,10);let l1on=false,l2on=false,strong=false;if(mode==='un'){l1on=true;strong=true}if(mode==='serie'){l1on=true;l2on=true}if(mode==='derivation'){l1on=true;l2on=true;strong=true}ctx.strokeStyle= mode==='off'?'#cbd5e1':'#ef4444';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(50,65);ctx.lineTo(50,160);ctx.lineTo(120,160);ctx.stroke();ctx.beginPath();ctx.moveTo(90,65);ctx.lineTo(90,110);ctx.lineTo(260,110);ctx.stroke();if(mode==='serie'){ctx.beginPath();ctx.moveTo(120,160);ctx.lineTo(120,180);ctx.lineTo(200,180);ctx.lineTo(200,160);ctx.stroke();ctx.beginPath();ctx.moveTo(260,110);ctx.lineTo(260,160);ctx.stroke();}if(mode==='derivation'){ctx.strokeStyle='#3b82f6';ctx.beginPath();ctx.moveTo(120,160);ctx.lineTo(120,210);ctx.lineTo(200,210);ctx.lineTo(200,160);ctx.stroke();ctx.strokeStyle='#f59e0b';ctx.beginPath();ctx.moveTo(260,110);ctx.lineTo(260,210);ctx.stroke();}drawLamp(120,160,l1on,strong,'L1');drawLamp(200,160,l2on,strong,'L2');document.getElementById('l1state').className='lamp'+(l1on?(strong?' strong':' on'):'');document.getElementById('l2state').className='lamp'+(l2on?(strong?' strong':' on'):'');document.getElementById('l1txt').innerText=l1on?(strong?'FORT':'faible'):'Off';document.getElementById('l2txt').innerText=l2on?(strong?'FORT':'faible'):'Off';}
+function drawLamp(x,y,on,strong,label){ctx.fillStyle= on ? (strong?'#fde047':'#facc15') : '#e2e8f0';ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);ctx.fill();if(on){ctx.shadowColor='#facc15';ctx.shadowBlur= strong?16:5;ctx.fill();ctx.shadowBlur=0}ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='black';ctx.font='9px sans-serif';ctx.fillText(label,x-7,y+26);}
+function explainElec(){
+ let el=document.getElementById('elecExplain');
+ if(mode==='off') el.innerHTML="<b>Éteint :</b> Pas de courant, I=0A. Comme robinet fermé.";
+ if(mode==='un') el.innerHTML="<b>UNE LAMPE (10Ω) :</b> U=4.5V. I = U/R = 4.5/10 = <b>0.45A</b>. P = 2.02W. Brille FORT.";
+ if(mode==='serie') el.innerHTML="<b>SÉRIE :</b> R_total=20Ω. I=0.225A partout. U1=U2=2.25V. Faible. Si L1 grille, tout s'éteint. U = R×I.";
+ if(mode==='derivation') el.innerHTML="<b>DÉRIVATION :</b> U=4.5V chaque, I1=I2=0.45A, I_total=0.9A. P_total=4.05W. FORT et indépendant.";
+}
 draw();
 let scene,camera,renderer,mesh;
-function initThree(){let container=document.getElementById('three-container');if(renderer)return;scene=new THREE.Scene();scene.background=new THREE.Color(0xf8fafc);camera=new THREE.PerspectiveCamera(60,container.clientWidth/320,0.1,1000);camera.position.set(2,2,3);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(container.clientWidth,320);container.innerHTML='';container.appendChild(renderer.domElement);let light=new THREE.DirectionalLight(0xffffff,1);light.position.set(2,3,4);scene.add(light);scene.add(new THREE.AmbientLight(0x888888));setShape('prism');animate();}
-function animate(){requestAnimationFrame(animate);if(mesh)mesh.rotation.y+=0.01;if(renderer)renderer.render(scene,camera);}
-function setShape(type){if(!scene)return;if(mesh)scene.remove(mesh);let geo;if(type==='prism'){geo=new THREE.CylinderGeometry(0.6,0.6,1.2,3);document.getElementById('vol').innerText='0.46 cm³';document.getElementById('geoExplain').innerHTML="Prisme triangulaire : 2 bases + 3 faces rectangles. Volume = Aire base x hauteur.";}if(type==='cube'){geo=new THREE.BoxGeometry(1,1,1);document.getElementById('vol').innerText='1.00 cm³';document.getElementById('geoExplain').innerHTML="Cube : 6 faces carrées. Volume = côté³.";}if(type==='pyramid'){geo=new THREE.ConeGeometry(0.7,1.2,4);document.getElementById('vol').innerText='0.61 cm³';document.getElementById('geoExplain').innerHTML="Pyramide : base carrée + 4 triangles. Volume = (Base x hauteur)/3.";}let mat=new THREE.MeshStandardMaterial({color:0x22c55e,transparent:true,opacity:0.9});mesh=new THREE.Mesh(geo,mat);scene.add(mesh);}
-function askIA(){let q=document.getElementById('qInput').value.toLowerCase();let ans=document.getElementById('iaAnswer');if(q.includes('série')||q.includes('serie'))ans.innerHTML="En série, les lampes partagent le courant. Comme 2 robinets sur même tuyau : moins de pression. Si une grille, tout s'éteint.";else if(q.includes('dérivation')||q.includes('derivation'))ans.innerHTML="En dérivation, chaque lampe a son propre chemin. Elles brillent fort et sont indépendantes. C'est le montage maison.";else if(q.includes('prisme')||q.includes('volume'))ans.innerHTML="Volume prisme = Aire triangle base x longueur.";else if(q.includes('exercice'))ans.innerHTML="<b>Exercice :</b> Pile 4.5V, L1=10Ω, L2=10Ω. 1) Intensité série ? 2) Intensité dérivation ?";else ans.innerHTML="Pose une question sur 'série', 'dérivation', 'prisme' ou 'exercice'.";}
+function initThree(){
+ let container=document.getElementById('three-container');let w=container.clientWidth||300;if(w<80)w=300;let h=320;
+ if(!scene){scene=new THREE.Scene();scene.background=new THREE.Color(0xf8fafc);camera=new THREE.PerspectiveCamera(50,w/h,0.1,1000);camera.position.set(0,1,2.5);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(w,h);container.innerHTML='';container.appendChild(renderer.domElement);scene.add(new THREE.DirectionalLight(0xffffff,1));scene.add(new THREE.AmbientLight(0xffffff,0.7));animate();}
+ renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();if(!mesh)setShape('prism');
+}
+function animate(){requestAnimationFrame(animate);if(mesh){mesh.rotation.y+=0.015; mesh.rotation.x+=0.005;} if(renderer)renderer.render(scene,camera);}
+function setShape(t){
+ if(!scene)initThree();if(mesh)scene.remove(mesh);let geo;let txt="";
+ if(t==='prism'){geo=new THREE.CylinderGeometry(0.6,0.6,1.2,3);txt="0.46 cm³ - Prisme triangulaire: 2 triangles + 3 rectangles. Toblerone.";}
+ if(t==='cube'){geo=new THREE.BoxGeometry(1,1,1);txt="1.00 cm³ - Cube: 6 faces carrées. Volume = côté³.";}
+ if(t==='pyramid'){geo=new THREE.ConeGeometry(0.7,1.2,4);txt="0.61 cm³ - Pyramide: base carrée + 4 triangles.";}
+ let mat=new THREE.MeshStandardMaterial({color:0x22c55e});mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
+ document.getElementById('vol').innerText=txt;
+ document.getElementById('geoExplain').innerHTML="<b>"+txt+"</b><br><br>Volume = espace à l'intérieur. Comme remplir d'eau.";
+}
+function forceRedraw(){initThree();}
+const elements=[{s:'H',n:'Hydrogène',z:1,m:1.008,c:'H',d:'Fait l eau H2O, très léger'},{s:'He',n:'Hélium',z:2,m:4.002,c:'He',d:'Gonfle les ballons'},{s:'Li',n:'Lithium',z:3,m:6.94,c:'Li',d:'Batteries téléphone'},{s:'Be',n:'Béryllium',z:4,m:9.012,c:'Be',d:'Très dur, avions'},{s:'B',n:'Bore',z:5,m:10.81,c:'B',d:'Verre résistant'},{s:'C',n:'Carbone',z:6,m:12.011,c:'C',d:'Base vie, charbon, diamant'},{s:'N',n:'Azote',z:7,m:14.007,c:'N',d:'78% air'},{s:'O',n:'Oxygène',z:8,m:15.999,c:'O',d:'On respire O2'},{s:'F',n:'Fluor',z:9,m:18.998,c:'F',d:'Dentifrice'},{s:'Na',n:'Sodium',z:11,m:22.99,c:'Li',d:'Sel cuisine NaCl'},{s:'Mg',n:'Magnésium',z:12,m:24.305,c:'Be',d:'Pour os, chocolat'},{s:'Al',n:'Aluminium',z:13,m:26.98,c:'B',d:'Canettes, fenêtres'},{s:'Si',n:'Silicium',z:14,m:28.085,c:'C',d:'Puce téléphone'},{s:'P',n:'Phosphore',z:15,m:30.97,c:'N',d:'Allumettes'},{s:'S',n:'Soufre',z:16,m:32.06,c:'O',d:'Oeuf pourri'},{s:'Cl',n:'Chlore',z:17,m:35.45,c:'F',d:'Piscine'},{s:'Fe',n:'Fer',z:26,m:55.845,c:'Li',d:'Clou, voiture, sang'},{s:'Cu',n:'Cuivre',z:29,m:63.546,c:'Be',d:'Fils électriques'},{s:'Au',n:'Or',z:79,m:196.97,c:'O',d:'Bijou, ne rouille jamais'}];
+function buildPeriodic(){
+ let g=document.getElementById('periodicGrid'); g.innerHTML='';
+ elements.forEach(e=>{
+  let d=document.createElement('div'); d.className='el '+e.c; d.innerText=e.s;
+  d.onclick=()=>{
+   document.getElementById('atomName').innerText=e.s+' - '+e.n+' (Z='+e.z+')';
+   document.getElementById('atomDetail').innerText='Masse: '+e.m+' - '+e.d;
+   document.getElementById('chimExplain').innerHTML="<b>"+e.n+" (Z="+e.z+") :</b> "+e.d+"<br><br>Z = nombre protons. Masse = poids.";
+  }
+  g.appendChild(d);
+ });
+}
+buildPeriodic();
+function calcOhms(){
+ let U=parseFloat(document.getElementById('inU').value)||0; let R=parseFloat(document.getElementById('inR').value)||1;
+ let I=U/R; let P=U*I;
+ document.getElementById('resI').innerText=I.toFixed(3)+' A';
+ document.getElementById('resP').innerText=P.toFixed(2)+' W';
+ document.getElementById('resDetail').innerText='U='+U+'V, R='+R+'Ω => I='+I.toFixed(3)+'A';
+ document.getElementById('formExplain').innerHTML="<b>Calcul :</b> U="+U+"V, R="+R+"Ω => I = "+U+"/"+R+" = <b>"+I.toFixed(3)+"A</b>. P = "+P.toFixed(2)+"W. Comme l'eau : pression U, tuyau R, débit I.";
+}
+function calcSerie(){ document.getElementById('inR').value=20; calcOhms(); }
+function calcDeriv(){ document.getElementById('inR').value=10; calcOhms(); }
+calcOhms();
+let oscType='sin';
+function initOscillo(){ drawOscillo(); }
+function setOsc(t){ oscType=t; drawOscillo(); document.getElementById('labExplain').innerHTML = t==='sin' ? "<b>Sinusoïdale :</b> Courant SONABEL 50Hz, monte +230V descend -230V." : "<b>Carré :</b> 0 ou 1, ordinateur."; }
+function drawOscillo(){
+ let c=document.getElementById('oscilloCanvas'); if(!c) return; let ctx=c.getContext('2d');
+ ctx.clearRect(0,0,160,130); ctx.fillStyle='#000'; ctx.fillRect(0,0,160,130);
+ ctx.strokeStyle='#333'; for(let i=0;i<160;i+=16){ ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,130); ctx.stroke(); } for(let j=0;j<130;j+=13){ ctx.beginPath(); ctx.moveTo(0,j); ctx.lineTo(160,j); ctx.stroke(); }
+ ctx.strokeStyle='#22c55e'; ctx.lineWidth=2; ctx.beginPath();
+ for(let x=0;x<160;x++){ let tt=x/160*4*Math.PI; let y= oscType==='sin'?65+45*Math.sin(tt):65+(Math.sin(tt)>0?35:-35); if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);} ctx.stroke();
+}
+let vecAngle=30;
+function initVector(){ drawVector(); }
+function setVec(a){ vecAngle=a; drawVector(); document.getElementById('labExplain').innerHTML="<b>Vecteur "+a+"° :</b> "+(a===30?"Petit angle = forces s'aident.":a===90?"90° = perpendiculaire.":"180° = opposées, annulent.");}
+function drawVector(){
+ let c=document.getElementById('vectorCanvas'); if(!c) return; let ctx=c.getContext('2d');
+ ctx.clearRect(0,0,160,130); ctx.fillStyle='#fff'; ctx.fillRect(0,0,160,130);
+ let cx=80, cy=65, len=45;
+ ctx.strokeStyle='#e5e7eb'; ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(160,cy); ctx.moveTo(cx,0); ctx.lineTo(cx,130); ctx.stroke();
+ ctx.strokeStyle='#3b82f6'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+len,cy); ctx.stroke();
+ let rad=vecAngle*Math.PI/180; let x2=cx+len*Math.cos(rad); let y2=cy-len*Math.sin(rad);
+ ctx.strokeStyle='#ef4444'; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x2,y2); ctx.stroke();
+}
 </script>
 </body>
 </html>

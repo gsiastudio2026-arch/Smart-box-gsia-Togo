@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMART BOX GSIA V2.2 - IA Partout</title>
+<title>SMART BOX GSIA V2.3 - COMPLET</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f172a">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -13,7 +13,7 @@ body{background:#0f172a;color:white}
 header{background:#1e293b;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #22c55e}
 header h1{font-size:14px;color:#22c55e}
 header span{background:#22c55e;color:black;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:bold}
-.tabs{display:flex;background:#1e293b;overflow-x:auto}
+.tabs{display:flex;background:#1e293b;overflow-x:auto;position:sticky;top:0;z-index:50}
 .tab{flex:1;min-width:60px;padding:10px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:9px;border-bottom:3px solid transparent}
 .tab.active{border-bottom:3px solid #22c55e;color:#22c55e;background:#0f172a}
 .content{display:none;padding:10px}
@@ -38,8 +38,7 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 .el.H{background:#ef4444}.el.He{background:#3b82f6}.el.Li{background:#22c55e}.el.Be{background:#f59e0b}.el.B{background:#8b5cf6}.el.C{background:#06b6d4}.el.N{background:#ec4899}.el.O{background:#f97316}.el.F{background:#10b981}.el.Ne{background:#6366f1}
 .formula{background:#0f172a;padding:8px;border-radius:8px;text-align:center;font-weight:bold;color:#22c55e;margin:6px 0;font-size:12px;border:1px solid #22c55e}
 .svt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.svt-grid img{width:100%;border-radius:10px;border:1px solid #334155;background:white}
-/* ECRAN ACCUEIL DG V2.2 */
+.svt-grid img{width:100%;border-radius:10px;border:1px solid #334155;background:white;min-height:120px}
 #welcome{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at center,#1e293b 0%, #0f172a 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:99999;text-align:center;padding:25px}
 #welcome h1{font-size:28px;color:#ffcc00;border:2px solid #22c55e;padding:22px;border-radius:18px;background:#1e293b;line-height:1.4}
 #welcome p{font-size:19px;color:#22c55e;margin-top:20px;font-weight:bold}
@@ -47,17 +46,14 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 </style>
 </head>
 <body>
-
-<!-- ECRAN D'ACCUEIL CORRIGÉ -->
 <div id="welcome">
   <div style="font-size:50px">🔬</div>
   <h1>" Nul n'entre ici<br>s'il n'est scientifique "</h1>
-  <p>Bienvenue à bord parmi les scientifiques</p>
+  <p>Bienvenue a bord parmi les scientifiques</p>
   <button onclick="enterApp()">ENTRER DANS LA BOX →</button>
-  <img src="icon.png" style="width:85px;margin-top:25px;border-radius:50%;border:2px solid #22c55e">
+  <img src="icon.png" style="width:85px;margin-top:25px;border-radius:50%;border:2px solid #22c55e" onerror="this.style.display='none'">
 </div>
-
-<header><h1>📦 SMART BOX GSIA</h1><span>V2.2 IA PARTOUT - CHIMIE & SVT COMPLET</span></header>
+<header><h1>📦 SMART BOX GSIA</h1><span>V2.3 COMPLET - 6 ONGLETS</span></header>
 <div class="tabs">
 <div class="tab active" onclick="switchTab(0)">⚡ ÉLEC</div>
 <div class="tab" onclick="switchTab(1)">📐 3D</div>
@@ -79,10 +75,7 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 </div>
 <div style="font-size:10px">L1:<span id="l1state" class="lamp"></span><span id="l1txt">Off</span> L2:<span id="l2state" class="lamp"></span><span id="l2txt">Off</span></div>
 </div>
-<div class="ai-box">
-<h3>L'IA explique - Électricité</h3>
-<div class="ai-text" id="elecExplain">Clique sur un montage, je t'explique tout. U=4.5V c'est la force de la pile, comme la pression de l'eau.</div>
-</div>
+<div class="ai-box"><h3>L'IA explique - Électricité</h3><div class="ai-text" id="elecExplain">Clique sur un montage. U=4.5V c'est la force de la pile.</div></div>
 </div>
 
 <div class="content" id="tab1">
@@ -97,14 +90,11 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 </div>
 <div style="font-size:11px">Volume: <span id="vol" style="color:#22c55e;font-weight:bold">--</span></div>
 </div>
-<div class="ai-box">
-<h3>L'IA explique - Géométrie 3D</h3>
-<div class="ai-text" id="geoExplain"><b>Prisme triangulaire :</b> Imagine un Toblerone. 2 triangles + 3 rectangles. Volume = aire triangle × longueur.</div>
-</div>
+<div class="ai-box"><h3>L'IA explique - Géométrie 3D</h3><div class="ai-text" id="geoExplain"><b>Prisme triangulaire :</b> Imagine un Toblerone.</div></div>
 </div>
 
 <div class="content" id="tab2">
-<h3 style="font-size:11px">🧪 Chimie - Atomes + Équations Bilan Eau & CO2</h3>
+<h3 style="font-size:11px">🧪 Chimie - Atomes + Équations Bilan</h3>
 <div class="sim-box">
 <h4 style="font-size:11px;color:#22c55e">Tableau Périodique - Clique un atome</h4>
 <div class="periodic-grid" id="periodicGrid"></div>
@@ -116,40 +106,19 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 <img src="chimie/structure.jpg" style="width:100%;border-radius:10px;margin-top:8px;background:white" onerror="this.style.display='none'">
 </div>
 <div class="sim-box" style="margin-top:10px">
-<h4 style="font-size:11px;color:#f59e0b">Équations Bilan Demandées DG</h4>
-<div style="background:#0f172a;padding:8px;border-radius:8px;margin:6px 0;border:1px solid #22c55e">
-<b style="color:#22c55e">EAU : Formation de l'eau</b><br>
-<div class="formula">2H₂ + O₂ → 2H₂O</div>
-</div>
-<div style="background:#0f172a;padding:8px;border-radius:8px;margin:6px 0;border:1px solid #3b82f6">
-<b style="color:#3b82f6">DIOXYDE DE CARBONE : Combustion carbone</b><br>
-<div class="formula">C + O₂ → CO₂</div>
-</div>
+<h4 style="font-size:11px;color:#f59e0b">Équations Bilan Eau & CO2</h4>
+<div class="formula">2H2 + O2 → 2H2O</div>
+<div class="formula">C + O2 → CO2</div>
+<div class="formula">4Fe + 3O2 → 2Fe2O3</div>
 <img src="chimie/eau_co2.jpg" style="width:100%;border-radius:10px;margin-top:8px;background:white" onerror="this.style.display='none'">
-</div>
-<div class="ai-box">
-<h3>L'IA explique - Chimie</h3>
-<div class="ai-text" id="chimExplain"><b>Équation bilan = recette de cuisine.</b> On compte les atomes à gauche (réactifs) et à droite (produits).</div>
 </div>
 </div>
 
 <div class="content" id="tab3">
-<h3 style="font-size:11px">📏 FORMULES CHIMIQUES - Alcanes, Saponification, Estérification</h3>
-<div class="sim-box">
-<h4 style="font-size:11px;color:#22c55e">1. ALCANES - CnH2n+2</h4>
-<div class="formula">CnH2n+2</div>
-<img src="chimie/alcanes.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
-</div>
-<div class="sim-box" style="margin-top:10px">
-<h4 style="font-size:11px;color:#f59e0b">2. SAPONIFICATION - Savon village</h4>
-<div class="formula">CORPS GRAS + SOUDE → GLYCEROL + SAVON</div>
-<img src="chimie/saponification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
-</div>
-<div class="sim-box" style="margin-top:10px">
-<h4 style="font-size:11px;color:#3b82f6">3. ESTERIFICATION - Parfum</h4>
-<div class="formula">ACIDE + ALCOOL ⇌ ESTER + EAU</div>
-<img src="chimie/esterification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
-</div>
+<h3 style="font-size:11px">📏 FORMULES CHIMIQUES</h3>
+<div class="sim-box"><h4 style="font-size:11px;color:#22c55e">1. ALCANES CnH2n+2</h4><div class="formula">CnH2n+2</div><img src="chimie/alcanes.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'"></div>
+<div class="sim-box" style="margin-top:10px"><h4 style="font-size:11px;color:#f59e0b">2. SAPONIFICATION</h4><div class="formula">CORPS GRAS + SOUDE → SAVON + GLYCEROL</div><img src="chimie/saponification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'"></div>
+<div class="sim-box" style="margin-top:10px"><h4 style="font-size:11px;color:#3b82f6">3. ESTERIFICATION</h4><div class="formula">ACIDE + ALCOOL → ESTER + EAU</div><img src="chimie/esterification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'"></div>
 </div>
 
 <div class="content" id="tab4">
@@ -160,30 +129,35 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 <div style="flex:1"><b style="font-size:9px">VECTEURS</b><canvas id="vectorCanvas" width="160" height="130" style="height:130px;background:#fff;border-radius:6px"></canvas><div class="controls"><button class="btn btn-orange" onclick="setVec(30)">30°</button><button class="btn btn-blue" onclick="setVec(90)">90°</button><button class="btn btn-green" onclick="setVec(180)">180°</button></div></div>
 </div>
 </div>
-<div class="ai-box">
-<h3>L'IA explique - Labo</h3>
-<div class="ai-text" id="labExplain"><b>Oscillomètre :</b> Dessine comment la tension change.</div>
-</div>
+<div class="ai-box"><h3>L'IA explique - Labo</h3><div class="ai-text" id="labExplain">Oscillomètre : Dessine comment la tension change. Sin = SONABEL 50Hz.</div></div>
 </div>
 
 <div class="content" id="tab5">
-<h3 style="font-size:11px">🌿 SVT - 14 Posters Gsiastudio Pro</h3>
+<h3 style="font-size:11px">🌿 SVT - 14 Posters</h3>
 <div class="sim-box">
 <div class="svt-grid">
-<img src="SvT/peau.jpg"><img src="SvT/œil.jpg">
-<img src="SvT/dent.jpg"><img src="SvT/cœur.jpg">
-<img src="SvT/coude.jpg"><img src="SvT/squelette.jpg">
-<img src="SvT/os long.jpg"><img src="SvT/fleur.jpg">
-<img src="SvT/circulatoire.jpg"><img src="SvT/respiratoire.jpg">
-<img src="SvT/digestif.jpg"><img src="SvT/urinaire.jpg">
-<img src="SvT/flexion extension.jpg"><img src="SvT/etats de la matiere.jpg">
+<img src="SvT/peau.jpg" onerror="this.src='svt/peau.jpg'">
+<img src="SvT/oeil.jpg" onerror="this.src='svt/oeil.jpg';this.src='SvT/peau.jpg'">
+<img src="SvT/dent.jpg">
+<img src="SvT/coeur.jpg" onerror="this.src='svt/coeur.jpg'">
+<img src="SvT/coude.jpg">
+<img src="SvT/squelette.jpg">
+<img src="SvT/moelle.jpg" onerror="this.src='SvT/os long.jpg'">
+<img src="SvT/fleur.jpg">
+<img src="SvT/circulatoire.jpg">
+<img src="SvT/respiratoire.jpg">
+<img src="SvT/digestif.jpg">
+<img src="SvT/urinaire.jpg">
+<img src="SvT/muscle.jpg" onerror="this.src='SvT/flexion extension.jpg'">
+<img src="SvT/etat_matiere.jpg" onerror="this.src='SvT/états de la matière.jpg'">
 </div>
+<p style="font-size:9px;color:#8892b0;margin-top:8px">Si une image ne s'affiche pas, renomme ton dossier SvT en svt minuscule et oeil.jpg sans accent</p>
 </div>
 </div>
 
 <script>
-function enterApp(){document.getElementById('welcome').style.display='none'; localStorage.setItem('gsia_entered','1');}
-window.addEventListener('load',()=>{ if(localStorage.getItem('gsia_entered')==='1'){ document.getElementById('welcome').style.display='none'; }});
+function enterApp(){document.getElementById('welcome').style.display='none';localStorage.setItem('gsia_entered','1');}
+window.addEventListener('load',()=>{if(localStorage.getItem('gsia_entered')==='1'){document.getElementById('welcome').style.display='none';}});
 function switchTab(i){
  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
  document.querySelectorAll('.content').forEach((c,idx)=>c.classList.toggle('active',idx===i));
@@ -199,16 +173,20 @@ draw();
 let scene,camera,renderer,mesh;
 function initThree(){let container=document.getElementById('three-container');let w=container.clientWidth||300;if(w<80)w=300;let h=320;if(!scene){scene=new THREE.Scene();scene.background=new THREE.Color(0xf8fafc);camera=new THREE.PerspectiveCamera(50,w/h,0.1,1000);camera.position.set(0,1,2.5);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(w,h);container.innerHTML='';container.appendChild(renderer.domElement);scene.add(new THREE.DirectionalLight(0xffffff,1));scene.add(new THREE.AmbientLight(0xffffff,0.7));animate();}renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();if(!mesh)setShape('prism');}
 function animate(){requestAnimationFrame(animate);if(mesh){mesh.rotation.y+=0.015; mesh.rotation.x+=0.005;} if(renderer)renderer.render(scene,camera);}
-function setShape(t){if(!scene)initThree();if(mesh)scene.remove(mesh);let geo;let txt="";if(t==='prism'){geo=new THREE.CylinderGeometry(0.6,0.6,1.2,3);txt="0.46 cm³ - Prisme triangulaire";}if(t==='cube'){geo=new THREE.BoxGeometry(1,1,1);txt="1.00 cm³ - Cube";}if(t==='pyramid'){geo=new THREE.ConeGeometry(0.7,1.2,4);txt="0.61 cm³ - Pyramide";}let mat=new THREE.MeshStandardMaterial({color:0x22c55e});mesh=new THREE.Mesh(geo,mat);scene.add(mesh);document.getElementById('vol').innerText=txt;}
+function setShape(t){if(!scene)initThree();if(mesh)scene.remove(mesh);let geo;let txt="";if(t==='prism'){geo=new THREE.CylinderGeometry(0.6,0.6,1.2,3);txt="0.46 cm³ - Prisme triangulaire";}if(t==='cube'){geo=new THREE.BoxGeometry(1,1,1);txt="1.00 cm³ - Cube";}if(t==='pyramid'){geo=new THREE.ConeGeometry(0.7,1.2,4);txt="0.61 cm³ - Pyramide";}let mat=new THREE.MeshStandardMaterial({color:0x22c55e});mesh=new THREE.Mesh(geo,mat);scene.add(mesh);document.getElementById('vol').innerText=txt;document.getElementById('geoExplain').innerHTML="<b>"+txt+"</b><br>Volume = espace à l'intérieur.";}
 function forceRedraw(){initThree();}
-const elements=[{s:'H',n:'Hydrogène',z:1,m:1.008,c:'H',d:'Fait l eau'},{s:'He',n:'Hélium',z:2,m:4.002,c:'He',d:'Ballons'},{s:'Li',n:'Lithium',z:3,m:6.94,c:'Li',d:'Batteries'},{s:'Be',n:'Béryllium',z:4,m:9.012,c:'Be',d:'Avions'},{s:'B',n:'Bore',z:5,m:10.81,c:'B',d:'Verre'},{s:'C',n:'Carbone',z:6,m:12.011,c:'C',d:'Vie'},{s:'N',n:'Azote',z:7,m:14.007,c:'N',d:'78% air'},{s:'O',n:'Oxygène',z:8,m:15.999,c:'O',d:'Respire'},{s:'F',n:'Fluor',z:9,m:18.998,c:'F',d:'Dentifrice'}];
+const elements=[{s:'H',n:'Hydrogène',z:1,m:1.008,c:'H',d:'Fait l eau'},{s:'He',n:'Hélium',z:2,m:4.002,c:'He',d:'Ballons'},{s:'Li',n:'Lithium',z:3,m:6.94,c:'Li',d:'Batteries'},{s:'Be',n:'Béryllium',z:4,m:9.012,c:'Be',d:'Avions'},{s:'B',n:'Bore',z:5,m:10.81,c:'B',d:'Verre'},{s:'C',n:'Carbone',z:6,m:12.011,c:'C',d:'Base vie'},{s:'N',n:'Azote',z:7,m:14.007,c:'N',d:'78% air'},{s:'O',n:'Oxygène',z:8,m:15.999,c:'O',d:'Respire'},{s:'F',n:'Fluor',z:9,m:18.998,c:'F',d:'Dentifrice'}];
 function buildPeriodic(){let g=document.getElementById('periodicGrid'); g.innerHTML='';elements.forEach(e=>{let d=document.createElement('div'); d.className='el '+e.c; d.innerText=e.s; d.onclick=()=>{document.getElementById('atomName').innerText=e.s+' - '+e.n; document.getElementById('atomDetail').innerText='Z='+e.z+' - '+e.d;}; g.appendChild(d);});}
 buildPeriodic();
-function initOscillo(){}
-function setOsc(t){}
-function initVector(){}
-function setVec(a){}
+let oscType='sin';let vecAngle=30;
+function initOscillo(){drawOscillo();}
+function setOsc(t){oscType=t;drawOscillo();document.getElementById('labExplain').innerHTML=t==='sin'?"<b>Sinusoïdale :</b> Courant SONABEL 50Hz, monte et descend.":"<b>Carré :</b> 0 ou 1, ordinateur.";}
+function drawOscillo(){let c=document.getElementById('oscilloCanvas');if(!c)return;let ctx=c.getContext('2d');ctx.clearRect(0,0,160,130);ctx.fillStyle='#000';ctx.fillRect(0,0,160,130);ctx.strokeStyle='#333';for(let i=0;i<160;i+=16){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,130);ctx.stroke();}for(let j=0;j<130;j+=13){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(160,j);ctx.stroke();}ctx.strokeStyle='#22c55e';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<160;x++){let y=65+ (oscType==='sin'? 50*Math.sin(x*0.08) : (x%40<20? -40:40));if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();}
+function initVector(){drawVector();}
+function setVec(a){vecAngle=a;drawVector();document.getElementById('labExplain').innerHTML="<b>Vecteurs "+a+"° :</b> 2 forces qui poussent. Si 0° elles s'ajoutent, si 180° elles s'opposent.";}
+function drawVector(){let c=document.getElementById('vectorCanvas');if(!c)return;let ctx=c.getContext('2d');ctx.clearRect(0,0,160,130);ctx.fillStyle='#fff';ctx.fillRect(0,0,160,130);ctx.strokeStyle='#334155';ctx.beginPath();ctx.moveTo(80,65);ctx.lineTo(80+40,65);ctx.stroke();ctx.strokeStyle='#22c55e';ctx.beginPath();ctx.moveTo(80,65);let rad=vecAngle*Math.PI/180;ctx.lineTo(80+40*Math.cos(rad),65-40*Math.sin(rad));ctx.stroke();ctx.fillStyle='black';ctx.font='9px sans-serif';ctx.fillText(vecAngle+"°",70,120);}
+initOscillo();initVector();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
 </body>
-</html>
+  </html>

@@ -12,7 +12,7 @@ header{background:#1e293b;padding:12px 15px;display:flex;justify-content:space-b
 header h1{font-size:14px;color:#22c55e}
 header span{background:#22c55e;color:black;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:bold}
 .tabs{display:flex;background:#1e293b;overflow-x:auto}
-.tab{flex:1;min-width:65px;padding:10px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:9px;border-bottom:3px solid transparent}
+.tab{flex:1;min-width:60px;padding:10px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:9px;border-bottom:3px solid transparent}
 .tab.active{border-bottom:3px solid #22c55e;color:#22c55e;background:#0f172a}
 .content{display:none;padding:10px}
 .content.active{display:block}
@@ -34,19 +34,20 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 .periodic-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;padding:6px;background:#0f172a;border-radius:10px}
 .el{padding:6px 1px;text-align:center;border-radius:4px;font-size:9px;font-weight:bold;cursor:pointer;color:white}
 .el.H{background:#ef4444}.el.He{background:#3b82f6}.el.Li{background:#22c55e}.el.Be{background:#f59e0b}.el.B{background:#8b5cf6}.el.C{background:#06b6d4}.el.N{background:#ec4899}.el.O{background:#f97316}.el.F{background:#10b981}.el.Ne{background:#6366f1}
-.input-row{display:flex;gap:5px;margin:5px 0}
-.input-row input{flex:1;padding:7px;border-radius:6px;border:1px solid #334155;background:#0f172a;color:white;font-size:11px}
-.formula{background:#0f172a;padding:8px;border-radius:8px;text-align:center;font-weight:bold;color:#22c55e;margin:6px 0;font-size:12px}
+.formula{background:#0f172a;padding:8px;border-radius:8px;text-align:center;font-weight:bold;color:#22c55e;margin:6px 0;font-size:12px;border:1px solid #22c55e}
+.svt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.svt-grid img{width:100%;border-radius:10px;border:1px solid #334155;background:white}
 </style>
 </head>
 <body>
-<header><h1>📦 SMART BOX GSIA</h1><span>V2.1 IA PARTOUT</span></header>
+<header><h1>📦 SMART BOX GSIA</h1><span>V2.1 IA PARTOUT - CHIMIE & SVT COMPLET</span></header>
 <div class="tabs">
 <div class="tab active" onclick="switchTab(0)">⚡ ÉLEC</div>
 <div class="tab" onclick="switchTab(1)">📐 3D</div>
 <div class="tab" onclick="switchTab(2)">🧪 CHIMIE</div>
 <div class="tab" onclick="switchTab(3)">📏 FORMULES</div>
 <div class="tab" onclick="switchTab(4)">🔬 LABO</div>
+<div class="tab" onclick="switchTab(5)">🌿 SVT</div>
 </div>
 
 <div class="content active" id="tab0">
@@ -62,7 +63,7 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 <div style="font-size:10px">L1:<span id="l1state" class="lamp"></span><span id="l1txt">Off</span> L2:<span id="l2state" class="lamp"></span><span id="l2txt">Off</span></div>
 </div>
 <div class="ai-box">
-<h3>L'IA explique - Électricité (Français facile Togo)</h3>
+<h3>L'IA explique - Électricité</h3>
 <div class="ai-text" id="elecExplain">Clique sur un montage, je t'explique tout. U=4.5V c'est la force de la pile, comme la pression de l'eau.</div>
 </div>
 </div>
@@ -86,38 +87,101 @@ canvas,#three-container{width:100%;height:320px;background:#f8fafc;border-radius
 </div>
 
 <div class="content" id="tab2">
-<h3 style="font-size:11px">🧪 Tableau Périodique</h3>
+<h3 style="font-size:11px">🧪 Chimie - Atomes + Équations Bilan Eau & CO2</h3>
 <div class="sim-box">
+<h4 style="font-size:11px;color:#22c55e">Tableau Périodique - Clique un atome</h4>
 <div class="periodic-grid" id="periodicGrid"></div>
 <div style="margin-top:8px;padding:8px;background:#0f172a;border-radius:8px">
 <div style="font-size:12px;color:#22c55e;font-weight:bold" id="atomName">Clique sur un atome</div>
 <div style="font-size:11px;color:#cbd5e1" id="atomDetail">H = Hydrogène, Z=1</div>
 </div>
 </div>
+<div class="sim-box" style="margin-top:10px">
+<h4 style="font-size:11px;color:#f59e0b">Équations Bilan Demandées DG</h4>
+<div style="background:#0f172a;padding:8px;border-radius:8px;margin:6px 0;border:1px solid #22c55e">
+<b style="color:#22c55e">EAU : Formation de l'eau</b><br>
+<div class="formula">2H₂ + O₂ → 2H₂O</div>
+<span style="font-size:10px;line-height:1.5"><b>Réactifs (à gauche):</b> 2 molécules de Dihydrogène (H2) + 1 molécule de Dioxygène (O2)<br><b>Produits finis (à droite):</b> 2 molécules d'Eau (H2O)<br><b>Équilibrage:</b> 4 atomes H et 2 atomes O de chaque côté</span>
+</div>
+<div style="background:#0f172a;padding:8px;border-radius:8px;margin:6px 0;border:1px solid #3b82f6">
+<b style="color:#3b82f6">DIOXYDE DE CARBONE : Combustion carbone</b><br>
+<div class="formula">C + O₂ → CO₂</div>
+<span style="font-size:10px;line-height:1.5"><b>Réactifs:</b> 1 atome de Carbone (C) + 1 molécule Dioxygène (O2)<br><b>Produits finis:</b> 1 molécule de Dioxyde de carbone (CO2)<br><b>Type:</b> Combustion complète - Déjà équilibré</span>
+</div>
+<div style="background:#0f172a;padding:8px;border-radius:8px;margin:6px 0;border:1px solid #ef4444">
+<b style="color:#ef4444">Autre exemple : Formation Rouille</b><br>
+<div class="formula">4Fe + 3O₂ → 2Fe₂O₃</div>
+<span style="font-size:10px"><b>Réactifs:</b> Fer + Oxygène | <b>Produit:</b> Oxyde de fer (rouille)</span>
+</div>
+<img src="CHIMIE/eau_co2.jpg" style="width:100%;border-radius:10px;margin-top:8px;background:white" onerror="this.style.display='none'">
+</div>
 <div class="ai-box">
 <h3>L'IA explique - Chimie</h3>
-<div class="ai-text" id="chimExplain"><b>Clique sur un élément !</b> Chaque atome a un numéro Z. Ex: H Z=1 = 1 proton. Plus Z grand = atome plus lourd. Les colonnes = même famille = mêmes propriétés.</div>
+<div class="ai-text" id="chimExplain"><b>Équation bilan = recette de cuisine.</b> On compte les atomes à gauche (réactifs) et à droite (produits). Le nombre doit être égal. On ajoute des coefficients : 2H2 + O2 → 2H2O.</div>
 </div>
 </div>
 
 <div class="content" id="tab3">
-<h3 style="font-size:11px">📏 Formules I / U / R</h3>
+<h3 style="font-size:11px">📏 FORMULES CHIMIQUES - Alcanes, Saponification, Estérification</h3>
+
 <div class="sim-box">
-<div class="formula">U = R × I | I = U / R | R = U / I | P = U × I</div>
-<div class="input-row"><input id="inU" type="number" value="4.5"><input id="inR" type="number" value="10"></div>
-<div class="controls">
-<button class="btn btn-green" onclick="calcOhms()">⚡ Calculer I</button>
-<button class="btn btn-blue" onclick="calcSerie()">🔋 Série</button>
-<button class="btn btn-orange" onclick="calcDeriv()">💡 Dérivation</button>
+<h4 style="font-size:11px;color:#22c55e">1. ALCANES - Formule générale CnH2n+2</h4>
+<div class="formula">FORMULE GENERALE : CnH2n+2</div>
+<div style="font-size:11px;background:#0f172a;padding:8px;border-radius:8px;line-height:1.8">
+<b>n=1 Méthane:</b> CH₄ → Gaz cuisine<br>
+<b>Équation combustion:</b> CH₄ + 2O₂ → CO₂ + 2H₂O<br><br>
+<b>n=2 Éthane:</b> C₂H₆ → CH₃-CH₃<br>
+<b>n=3 Propane:</b> C₃H₈ → CH₃-CH₂-CH₃ (gaz)<br>
+<b>n=4 Butane:</b> C₄H₁₀ → CH₃-CH₂-CH₂-CH₃ (briquet)<br><br>
+<b>Réactifs combustion alcane:</b> Alcane + O2<br>
+<b>Produits finis:</b> CO2 + H2O<br>
+<b>Exemple:</b> C₄H₁₀ + 13/2 O₂ → 4CO₂ + 5H₂O
 </div>
-<div style="font-size:12px;background:#0f172a;padding:8px;border-radius:8px">
-I = <span id="resI" style="color:#22c55e;font-weight:bold">0.45 A</span> | P = <span id="resP" style="color:#facc15">2.02 W</span><br>
-<span id="resDetail" style="font-size:10px;color:#94a3b8">Détail calcul</span>
+<img src="CHIMIE/alcanes.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
 </div>
+
+<div class="sim-box" style="margin-top:10px">
+<h4 style="font-size:11px;color:#f59e0b">2. SAPONIFICATION - Fabrication du savon au village</h4>
+<div class="formula">CORPS GRAS + SOUDE → GLYCEROL + SAVON</div>
+<div style="font-size:10.5px;background:#0f172a;padding:8px;border-radius:8px;line-height:1.7">
+<b>Équation Bilan Générale:</b><br>
+(R-COO)₃C₃H₅ + 3 NaOH → C₃H₈O₃ + 3 R-COONa<br><br>
+<b>Réactifs (gauche):</b><br>
+• Triglycéride (Huile de palme/palmiste) : (C₁₇H₃₅COO)₃C₃H₅<br>
+• Soude caustique : 3 NaOH (hydroxyde de sodium)<br><br>
+<b>Produits finis (droite):</b><br>
+• Glycérol : C₃H₈O₃ (glycérine, adoucit peau)<br>
+• Savon : 3 C₁₇H₃₅COONa (palmitate de sodium)<br><br>
+<b>Exemple concret Togo:</b><br>
+Huile de palme + NaOH → Savon dur + Glycérol<br>
+C'est une hydrolyse basique d'un ester.
 </div>
+<img src="CHIMIE/saponification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
+</div>
+
+<div class="sim-box" style="margin-top:10px">
+<h4 style="font-size:11px;color:#3b82f6">3. ESTERIFICATION - Parfum / Arôme fruité</h4>
+<div class="formula">ACIDE + ALCOOL ⇌ ESTER + EAU (Réversible)</div>
+<div style="font-size:10.5px;background:#0f172a;padding:8px;border-radius:8px;line-height:1.7">
+<b>Équation Bilan Générale:</b><br>
+R-COOH + R'-OH ⇌ R-COOR' + H₂O<br><br>
+<b>Réactifs (gauche):</b><br>
+• Acide carboxylique : R-COOH (ex: CH₃COOH acide acétique = vinaigre)<br>
+• Alcool : R'-OH (ex: C₂H₅OH éthanol)<br><br>
+<b>Produits finis (droite):</b><br>
+• Ester : R-COOR' (odeur fruitée, parfum)<br>
+• Eau : H₂O<br><br>
+<b>Exemple concret équilibré:</b><br>
+CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O<br>
+Acide acétique + Éthanol ⇌ Éthanoate d'éthyle (odeur vernis à ongle / poire) + Eau<br><br>
+<b>Réaction inverse = Hydrolyse de l'ester</b>
+</div>
+<img src="CHIMIE/esterification.jpg" style="width:100%;border-radius:10px;margin-top:6px;background:white" onerror="this.style.display='none'">
+</div>
+
 <div class="ai-box">
-<h3>L'IA explique - Formules</h3>
-<div class="ai-text" id="formExplain"><b>Loi d'Ohm, c'est comme l'eau :</b> U = pression, R = taille du tuyau, I = débit. I = U / R. Donc 4.5V / 10Ω = 0.45A.</div>
+<h3>L'IA explique - Formules Chimie</h3>
+<div class="ai-text"><b>Alcanes = carburant CnH2n+2. Saponification = huile + soude = savon + glycérol (comme au village). Estérification = acide + alcool = parfum + eau. C'est réversible.</b></div>
 </div>
 </div>
 
@@ -132,6 +196,32 @@ I = <span id="resI" style="color:#22c55e;font-weight:bold">0.45 A</span> | P = <
 <div class="ai-box">
 <h3>L'IA explique - Labo</h3>
 <div class="ai-text" id="labExplain"><b>Oscillomètre :</b> Dessine comment la tension change. Sinusoïdale = courant SONABEL 50Hz. <b>Vecteurs :</b> 2 personnes qui poussent une table.</div>
+</div>
+</div>
+
+<div class="content" id="tab5">
+<h3 style="font-size:11px">🌿 SVT - Corps humain & Matière - Gsiastudio Pro</h3>
+<div class="sim-box">
+<div class="svt-grid">
+<img src="SVT/peau.jpg" alt="Peau" onerror="this.style.display='none'">
+<img src="SVT/oeil.jpg" alt="Oeil" onerror="this.style.display='none'">
+<img src="SVT/dent.jpg" alt="Dent" onerror="this.style.display='none'">
+<img src="SVT/coeur.jpg" alt="Coeur" onerror="this.style.display='none'">
+<img src="SVT/circulation.jpg" alt="Circulation" onerror="this.style.display='none'">
+<img src="SVT/respiration.jpg" alt="Respiration" onerror="this.style.display='none'">
+<img src="SVT/digestion.jpg" alt="Digestion" onerror="this.style.display='none'">
+<img src="SVT/squelette.jpg" alt="Squelette" onerror="this.style.display='none'">
+<img src="SVT/coude.jpg" alt="Coude" onerror="this.style.display='none'">
+<img src="SVT/os_long.jpg" alt="Os long" onerror="this.style.display='none'">
+<img src="SVT/mouvements.jpg" alt="Mouvements" onerror="this.style.display='none'">
+<img src="SVT/fleur.jpg" alt="Fleur" onerror="this.style.display='none'">
+<img src="SVT/matiere.jpg" alt="Matiere" onerror="this.style.display='none'">
+</div>
+<div style="margin-top:8px;font-size:10px;color:#94a3b8">Dossier SVT/ : peau.jpg, oeil.jpg, coeur.jpg, squelette.jpg... Si image manque, elle se cache seule, pas d'erreur.</div>
+</div>
+<div class="ai-box">
+<h3>L'IA explique - SVT</h3>
+<div class="ai-text"><b>Peau =</b> barrière qui protège comme mur maison. <b>Oeil =</b> caméra. <b>Coeur =</b> pompe qui pousse le sang. <b>Squelette =</b> charpente. <b>Poumon =</b> soufflet. <b>Estomac =</b> marmite qui digère.</div>
 </div>
 </div>
 
@@ -179,23 +269,12 @@ function buildPeriodic(){
   d.onclick=()=>{
    document.getElementById('atomName').innerText=e.s+' - '+e.n+' (Z='+e.z+')';
    document.getElementById('atomDetail').innerText='Masse: '+e.m+' - '+e.d;
-   document.getElementById('chimExplain').innerHTML="<b>"+e.n+" (Z="+e.z+") :</b> "+e.d+"<br><br>Z = nombre protons. Masse = poids.";
+   document.getElementById('chimExplain').innerHTML="<b>"+e.n+" (Z="+e.z+") :</b> "+e.d+"<br><br>Z = nombre protons. Masse = poids. C'est la base de toutes les équations bilan.";
   }
   g.appendChild(d);
  });
 }
 buildPeriodic();
-function calcOhms(){
- let U=parseFloat(document.getElementById('inU').value)||0; let R=parseFloat(document.getElementById('inR').value)||1;
- let I=U/R; let P=U*I;
- document.getElementById('resI').innerText=I.toFixed(3)+' A';
- document.getElementById('resP').innerText=P.toFixed(2)+' W';
- document.getElementById('resDetail').innerText='U='+U+'V, R='+R+'Ω => I='+I.toFixed(3)+'A';
- document.getElementById('formExplain').innerHTML="<b>Calcul :</b> U="+U+"V, R="+R+"Ω => I = "+U+"/"+R+" = <b>"+I.toFixed(3)+"A</b>. P = "+P.toFixed(2)+"W. Comme l'eau : pression U, tuyau R, débit I.";
-}
-function calcSerie(){ document.getElementById('inR').value=20; calcOhms(); }
-function calcDeriv(){ document.getElementById('inR').value=10; calcOhms(); }
-calcOhms();
 let oscType='sin';
 function initOscillo(){ drawOscillo(); }
 function setOsc(t){ oscType=t; drawOscillo(); document.getElementById('labExplain').innerHTML = t==='sin' ? "<b>Sinusoïdale :</b> Courant SONABEL 50Hz, monte +230V descend -230V." : "<b>Carré :</b> 0 ou 1, ordinateur."; }
